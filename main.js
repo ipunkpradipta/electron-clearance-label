@@ -5,6 +5,7 @@ const url = require("url");
 const path = require("path");
 const { getTrackingDetail, updateTrackingDetail, insertUnexTracking } = require("./model");
 const { loadDataFromCias, updateDataToCias } = require("./proses");
+const config = require('./config');
 
 //load Module Electron
 const { app, BrowserWindow, Menu, ipcMain } = electron;
@@ -19,13 +20,14 @@ const mainMenuTemplate = [
       {
         label: "Login",
         click() {
-          mainWindow.loadURL(
-            url.format({
-              pathname: path.join(__dirname, "page/login.html"),
-              protocol: "file:",
-              slashes: true,
-            })
-          );
+          mainWindow.loadFile(__dirname + config.URL_PAGE_LOGIN);
+          // mainWindow.loadURL(
+          //   url.format({
+          //     pathname: path.join(__dirname, "page/login.html"),
+          //     protocol: "file:",
+          //     slashes: true,
+          //   })
+          // );
         },
       },
       {
@@ -49,13 +51,14 @@ const createWindow = () => {
     alwaysOnTop: true,
   });
 
-  splash.loadURL(
-    url.format({
-      pathname: path.join(__dirname, "page/splashscreen.html"),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  splash.loadFile(__dirname + config.URL_PAGE_SPLASH);
+  // splash.loadURL(
+  //   url.format({
+  //     pathname: path.join(__dirname, "page/splashscreen.html"),
+  //     protocol: "file:",
+  //     slashes: true,
+  //   })
+  // );
 
   //create main windows
   mainWindow = new BrowserWindow({
@@ -68,14 +71,15 @@ const createWindow = () => {
   });
 
   // load html into windows
-  mainWindow.loadURL(
-    url.format({
-      // pathname: path.join(__dirname, "page/scan-new.html"),
-      pathname: path.join(__dirname, "page/mainWindow.html"),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  mainWindow.loadFile(__dirname + config.URL_PAGE_MAIN)
+  // mainWindow.loadURL(
+  //   url.format({
+  //     // pathname: path.join(__dirname, "page/scan-new.html"),
+  //     pathname: path.join(__dirname, "page/mainWindow.html"),
+  //     protocol: "file:",
+  //     slashes: true,
+  //   })
+  // );
 
   // mainWindow.webContents.openDevTools();
 
@@ -169,13 +173,14 @@ const authenticatedMenu = {
 //handle login
 ipcMain.on("login-success", function (e, data) {
   //change window to main
-  mainWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, "page/mainWindow.html"),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  mainWindow.loadFile(__dirname + config.URL_PAGE_MAIN);
+  // mainWindow.loadURL(
+  //   url.format({
+  //     pathname: path.join(__dirname, "page/mainWindow.html"),
+  //     protocol: "file:",
+  //     slashes: true,
+  //   })
+  // );
   // console.log('login-data',data)
   // mainWindow.webContents.openDevTools();
   mainWindow.webContents.send("login:dataUser", data);
@@ -184,13 +189,14 @@ ipcMain.on("login-success", function (e, data) {
   mainMenuTemplate[0].submenu.unshift({
     label: "Buat Label",
     click() {
-      mainWindow.loadURL(
-        url.format({
-          pathname: path.join(__dirname, "page/scan-new.html"),
-          protocol: "file:",
-          slashes: true,
-        })
-      );
+      mainWindow.loadFile(__dirname + config.URL_PAGE_SCAN);
+      // mainWindow.loadURL(
+      //   url.format({
+      //     pathname: path.join(__dirname, "page/scan-new.html"),
+      //     protocol: "file:",
+      //     slashes: true,
+      //   })
+      // );
     },
   });
   // Build menu from template
@@ -229,13 +235,14 @@ const openLoaderWindow = () => {
     width: 600,
     height: 400,
   });
-  loadDataWindow.loadURL(
-    url.format({
-      pathname: path.join(__dirname, "page/spinner.html"),
-      protocol: "file:",
-      slashes: true,
-    })
-  );
+  loadDataWindow.loadFile(__dirname + config.URL_PAGE_LOADER);
+  // loadDataWindow.loadURL(
+  //   url.format({
+  //     pathname: path.join(__dirname, "page/spinner.html"),
+  //     protocol: "file:",
+  //     slashes: true,
+  //   })
+  // );
   return loadDataWindow;
 }
 
@@ -344,7 +351,8 @@ const openWindowLabel = (dataLabel) => {
     },
   });
 
-  labelWindow.loadURL("file://" + __dirname + "/page/label.html");
+  // labelWindow.loadURL("file://" + __dirname + "/page/label.html");
+  labelWindow.loadFile(__dirname + config.URL_PAGE_LABEL);
   labelWindow.setMenu(null);
   labelWindow.once("ready-to-show", () => {
     // labelWindow.webContents.openDevTools();

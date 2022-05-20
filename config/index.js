@@ -8,4 +8,10 @@ module.exports = {
   DB_DATABASE: "dblabeling",
   URL_GET_DATA: "http://119.8.185.106/cas_divider/api/getDataForLabeling",
   URL_PUSH_DATA: "http://119.8.185.106/cas_divider/api/updateFlagHadir",
+  URL_PAGE_SPLASH: "/page/splashscreen.html",
+  URL_PAGE_MAIN: "/page/mainWindow.html",
+  URL_PAGE_SCAN: "/page/scan-new.html",
+  URL_PAGE_LOADER: "/page/spinner.html",
+  URL_PAGE_LABEL: "/page/label.html",
+  URL_PAGE_LOGIN: "/page/login.html",
 };
