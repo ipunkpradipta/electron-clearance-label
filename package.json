@@ -1,0 +1,46 @@
+{
+  "name": "label_app",
+  "version": "1.0.0",
+  "description": "Label Application for Clearance PT.CAS",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "Ipunk Pradipta",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "electron-node-config": "^1.1.0",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "electron": "^18.2.2",
+    "electron-builder": "^23.0.3",
+    "electron-packager": "^15.5.1"
+  },
+  "build": {
+    "appId": "com.CIAS.label",
+    "productName": "CIAS Label App",
+    "directories": {
+      "output": "build"
+    },
+    "icon": "assets/icons/cias2.ico",
+    "target": "NSIS",
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icons/favicon.ico"
+    },
+    "defaultArch": "x64",
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerIcon": "assets/icons/installer.ico",
+      "uninstallerIcon": "assets/icons/uninstaller.ico",
+      "installerHeaderIcon": "assets/icons/favicon.ico"
+    }
+  }
+}

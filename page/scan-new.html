@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.84.0" />
+    <title>Scan Page</title>
+
+    <link rel="stylesheet" href="../assets/handsontable/dist/handsontable.full.min.css" />
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="py-3 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Scan Tracking Number</h1>
+            <!-- <p class="lead text-muted">
+              Something short and leading about the collection below—its
+              contents, the creator, etc. Make it short and sweet, but not too
+              short so folks don’t simply skip over it entirely.
+            </p> -->
+            <form onsubmit="handleSubmitTracking(event)">
+              <div class="form-floating">
+                <input
+                  type="tracking_number"
+                  class="form-control"
+                  id="tracking_number"
+                  placeholder="name@example.com"
+                />
+                <label for="tracking_number">Tracking</label>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row g-3">
+            <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3"> -->
+            <div class="col">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <div id="example"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- <footer class="text-muted py-5">
+      <div class="container">
+        <p class="float-end mb-1">
+          <a href="#">Back to top</a>
+        </p>
+        <p class="mb-1">
+          Album example is &copy; Bootstrap, but please download and customize
+          it for yourself!
+        </p>
+        <p class="mb-0">
+          New to Bootstrap? <a href="/">Visit the homepage</a> or read our
+          <a href="../getting-started/introduction/">getting started guide</a>.
+        </p>
+      </div>
+    </footer> -->
+
+    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      type="text/javascript"
+      src="../assets/handsontable/dist/handsontable.full.min.js"
+    ></script>
+    <!-- <script src="renderer.js"></script> -->
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
+      function handleSubmitTracking(e) {
+        e.preventDefault();
+        const tracking = document.querySelector("#tracking_number").value;
+        // console.log(tracking);
+        ipcRenderer.send("tracking:handleTrackingNumber", tracking);
+        document.querySelector("#tracking_number").value = "";
+      }
+
+      const data = [['','','','']];
+
+      const container = document.getElementById("example");
+      const hot = new Handsontable(container, {
+        // data: new Handsontable.helper.createSpreadsheetData(100, 4),
+        data: data,
+        rowHeaders: true,
+        // colHeaders: true,
+        colHeaders: ['Tracking Number', 'Pcs', 'Weight','Clearance'],
+        colWidths: [200, 100, 100, 150],
+        // height: "auto",
+        height: 400,
+        // height: 100,
+        stretchH: 'last',
+        licenseKey: "non-commercial-and-evaluation", // for non-commercial use only
+      });
+      // console.log(hot);
+      // console.log(hot.scrollViewportTo());
+      ipcRenderer.on("tracking:addToArrayList", (event, result) => {
+        if(data[0][0] == ''){
+          data.shift();
+        }
+        data.push(result);
+        hot.loadData(data);
+        // console.log(hot);
+
+        // hot.afterLoadData((test) => {
+        //   console.log(test)
+        // })
+        setTimeout(() => {
+          hot.addHook('afterLoadData', (sourceData, initialLoad,source) => {
+            console.log(`source`,source);
+            console.log(`sourceData`,sourceData);
+            console.log(`initialLoad`,initialLoad);
+          })
+        },200)
+      });
+    </script>
+  </body>
+</html>

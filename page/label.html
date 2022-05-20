@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Label</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <style>
+      /* @page {
+        size: 150mm 210mm;
+      } */
+      body {
+        /* margin: 2px; */
+        margin: 0px;
+        font-family: monospace;
+        /* width: 22rem;
+        height: 5cm; */
+        /* height: 5cm; */
+        /* font-weight: bold; */
+      }
+
+      .container {
+        /* width: 10cm;
+            height: 5cm; */
+        border: 2px solid black;
+        /* margin-top: 9px; */
+        /* font-size: 10px; */
+      }
+
+      /* Airlines Section */
+      .airline-container {
+        border-bottom: 2px solid black;
+        width: 100%;
+        margin-top: 3px;
+        margin-right: 3px;
+      }
+
+      .airline-container .form-input {
+        width: 31%;
+        margin: 2px;
+        margin-left: 3px;
+        margin-top: 6px;
+        margin-bottom: 3px;
+        display: inline-block;
+      }
+
+      .airline-container .form-input.dikit {
+        width: 17%;
+        /* border: 2px solid red; */
+      }
+
+      .airline-container .form-input label {
+        position: absolute;
+        margin: -8px 0 0 4px;
+        background-color: white;
+        padding-top: 0;
+        font-weight: bold;
+      }
+
+      .airline-container .form-input input {
+        width: 100px;
+        padding: 2px 2px;
+        padding-top: 6px;
+        font-size: 10px;
+        border: 2px solid black;
+        border-radius: 2px;
+      }
+
+      .airline-container .form-input.dikit input {
+        width: 50px;
+        /* padding: 2px 2px;
+            padding-top: 6px;
+            font-size: 10px;
+            border: 2px solid black;
+            border-radius: 2px; */
+      }
+
+      .label-atensi {
+        margin: 0px;
+        padding-left: 30px;
+        font-size: 19px;
+      }
+
+      /* Barcode Section */
+      .barcode-container {
+        border-bottom: 2px solid black;
+        width: 100%;
+        margin-top: 0px;
+      }
+
+      .barcode-box {
+        display: inline-block;
+        margin: 2px;
+        width: 75%;
+        border-right: 2px solid black;
+      }
+
+      .barcode-pieces {
+        width: 7%;
+        /* height: 20%; */
+        display: inline-block;
+        position: absolute;
+        /* margin: 5px 0px 0px 28px; */
+        margin: 10px 0px 0px 28px;
+        /* border: 1px solid red; */
+        margin-left: 20px;
+        text-align: center;
+      }
+
+      .barcode-pieces label {
+        font-size: 20px;
+        font-weight: bold;
+        /* position: absolute; */
+        /* margin: -50px 0px 0px 0px; */
+      }
+
+      /* Detail Section */
+      .detail-container {
+        /* margin-top: 3px; */
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+        /* border: 1px solid red; */
+      }
+
+      .detail-container .form-input {
+        width: 19%;
+        margin: 2px;
+        margin-top: 1px;
+        /* margin-bottom: 3px; */
+        margin-left: 3px;
+        display: inline-block;
+      }
+
+      .detail-container .form-input label {
+        position: absolute;
+        /* margin: -8px 0 0 4px; */
+        margin: 1px 0 0 11px;
+        background-color: white;
+        padding-top: 0;
+        font-weight: bold;
+      }
+
+      .detail-container .form-input input {
+        width: 66px;
+        padding: 2px 3px;
+        padding-top: 6px;
+        font-size: 10px;
+        border: 2px solid black;
+        border-radius: 2px;
+        margin: 6px;
+      }
+
+      /* Consignee Section */
+      .consignee-container {
+        display: block;
+        text-align: center;
+        /* margin-top: 5px; */
+      }
+
+      .consignee-container label {
+        font-size: 15px;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container" id="container">
+      <div class="airline-container">
+        <div class="form-input">
+          <label>Airlines</label>
+          <input type="text" id="airline_name" />
+        </div>
+        <div class="form-input">
+          <label>Flight No</label>
+          <input type="text" id="airline_flight" />
+        </div>
+        <div class="form-input dikit">
+          <p class="label-atensi" id="airlines_atensi"></p>
+        </div>
+      </div>
+      <div class="barcode-container">
+        <div class="barcode-box">
+          <label>H Waybill No</label>
+          <div class="barcode">
+            <svg id="barcode-bar" data-value=""></svg>
+          </div>
+        </div>
+        <div class="barcode-pieces">
+          <label id="package_of_sequent"></label>
+          <label style="font-size: 18px">OF</label>
+          <label id="package_of_total"></label>
+        </div>
+      </div>
+      <div class="detail-container">
+        <div class="form-input">
+          <label>Bill To</label>
+          <input type="text" id="detail_bill" />
+        </div>
+        <div class="form-input">
+          <label>Clearance</label>
+          <input type="text" id="detail_clearance" />
+        </div>
+        <div class="form-input">
+          <label>Weight (KG)</label>
+          <input type="text" id="detail_weight" />
+        </div>
+        <div class="form-input">
+          <label>Date</label>
+          <input type="text" id="detail_date_arrival" />
+        </div>
+      </div>
+      <div class="consignee-container">
+        <label id="consignee_name">PT. UPS Cardig International</label>
+      </div>
+    </div>
+    <!-- <script src="../assets/js/JsBarcode.all.min.js"></script> -->
+    <script src="../assets/js/JsBarcode.all.min.js"></script>
+    <script>
+      const electron = require("electron");
+      const { ipcRenderer } = electron;
+      showFormLabel(false, 1);
+
+      function showFormLabel(arg = false, seq) {
+        console.log("function loaded", seq);
+        if (arg) {
+          console.log("form show", seq);
+          document.getElementById("container").style.display = "block";
+        } else {
+          console.log("form hide", seq);
+          document.getElementById("container").style.display = "none";
+        }
+      }
+
+      // let serviceNumber = "12345678901";
+      // const electron = require('electron');
+      // const { ipcRenderer } = electron;
+
+      var d = new Date();
+
+      var datestring =
+        d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+      document.querySelector("#detail_date_arrival").value = datestring;
+
+      // ipcRenderer.on('tracking:dataLabel',(event,data) => {
+      // 	console.log('event',event);
+      // 	console.log('data',data);
+      // })
+
+      ipcRenderer.on("tracking:dataLabel", (event, data) => {
+        showFormLabel(true, 2);
+        serviceNumber = data.service_number;
+        if (data.flag_atensi == "1") {
+          document.querySelector("#airlines_atensi").innerHTML = "ATENSI";
+        }
+        document.querySelector("#airline_name").value = data.airline_name;
+        document.querySelector("#airline_flight").value = data.airline_flight;
+        document.querySelector("#detail_bill").value = data.detail_bill;
+        document.querySelector("#detail_clearance").value = data.detail_clearance;
+        document.querySelector("#detail_weight").value = data.detail_weight;
+        document.querySelector("#consignee_name").innerHTML = data.consignee_name;
+        document.querySelector("#package_of_sequent").innerHTML = data.package_of_sequent;
+        document.querySelector("#package_of_total").innerHTML = data.package_of_total;
+
+        JsBarcode("#barcode-bar", data.service_number, {
+          height: 43,
+          width: data.service_number.length > 11 ? 1.3 : 1.6,
+          margin: 2,
+          fontSize: 18,
+          fontOptions: "bold",
+          font: "monospace",
+          textMargin: 0,
+        });
+				ipcRenderer.send("tracking:printLabel",data.longtrack_number);
+      });
+
+      // ipcRenderer.on('tracking:retriveToPrint',(event,data) => {
+      // 	console.log('aaaa',data);
+      // 	serviceNumber = data.service_number
+      // 	if(data.flag_atensi == "1"){
+      // 		document.querySelector('#airlines_atensi').innerHTML = 'ATENSI';
+      // 	}
+      // 	document.querySelector('#airline_name').value = data.airline_name;
+      // 	document.querySelector('#airline_flight').value = data.airline_flight;
+      // 	document.querySelector('#detail_bill').value = data.detail_bill;
+      // 	document.querySelector('#detail_clearance').value = data.detail_clearance;
+      // 	document.querySelector('#detail_weight').value = data.detail_weight;
+      // 	document.querySelector('#consignee_name').innerHTML = data.consignee_name;
+      // 	document.querySelector('#package_of_sequent').innerHTML = data.package_of_sequent;
+      // 	document.querySelector('#package_of_total').innerHTML = data.package_of_total;
+
+      // 	JsBarcode("#barcode-bar", data.service_number, {
+      // 		height: 25,
+      // 		width: data.service_number.length > 11 ? 1.3 : 1.6,
+      // 		margin: 2,
+      // 		fontSize: 18,
+      // 		fontOptions: "bold",
+      // 		font: "monospace",
+      // 		textMargin: 0,
+      // 	})
+      // })
+    </script>
+  </body>
+</html>

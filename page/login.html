@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <meta
+      name="author"
+      content="Mark Otto, Jacob Thornton, and Bootstrap contributors"
+    />
+    <meta name="generator" content="Hugo 0.84.0" />
+    <title>Login</title>
+
+    <!-- <link
+      rel="canonical"
+      href="https://getbootstrap.com/docs/5.0/examples/sign-in/"
+    /> -->
+
+    <!-- Bootstrap core CSS -->
+    <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+
+    <!-- Custom styles for this template -->
+    <link href="signin.css" rel="stylesheet" />
+  </head>
+  <body class="text-center">
+    <main class="form-signin">
+      <form onsubmit="event.preventDefault(); checkLogin();">
+        <img
+          class="mb-4"
+          src="https://clearance.cas-express.co.id/cas_app//themes/admin/img/cias2.png"
+          alt=""
+          width="72"
+          height="57"
+        />
+        <h1 class="h3 mb-3 fw-normal">Login</h1>
+
+        <div class="form-floating">
+          <input
+            type="email"
+            class="form-control"
+            id="floatingInput"
+            placeholder="name@example.com"
+          />
+          <!-- <input
+            type="email"
+            class="form-control"
+            id="floatingInput"
+            placeholder="name@example.com"
+            value="ipung.munandar@gmail.com"
+          /> -->
+          <label for="floatingInput">Email</label>
+        </div>
+        <div class="form-floating">
+          <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+          />
+          <!-- <input
+            type="password"
+            class="form-control"
+            id="floatingPassword"
+            placeholder="Password"
+            value="12345"
+          /> -->
+          <label for="floatingPassword">Password</label>
+        </div>
+
+        <button class="w-100 btn btn-lg btn-primary" type="submit">
+          Sign in
+        </button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2022</p>
+      </form>
+    </main>
+    <script>
+      const electron = require('electron');
+      const { ipcRenderer } = electron;
+      
+      function checkLogin() {
+        const email = document.getElementById('floatingInput').value;
+        const password = document.getElementById('floatingPassword').value;
+        const response = makeRequest({
+          username: email,
+          password: password
+        }).then((result) => {
+          console.log(result);
+          if(result.s == 'success'){
+            ipcRenderer.send('login-success',result.data)
+          }else{
+            ipcRenderer.send('login-fail',result.data)
+          }
+        }).catch(error => {
+          ipcRenderer.send('login-fail',error.message)
+        });
+      }
+
+      async function makeRequest(formData) {
+        const rawResponse = await fetch("http://119.8.185.106/cas_divider/api/login", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          mode: 'cors',
+          body: JSON.stringify(formData)
+        });
+        const response = await rawResponse.json();
+        return response;
+      }
+    </script>
+  </body>
+</html>
